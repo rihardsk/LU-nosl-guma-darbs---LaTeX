@@ -1,170 +1,232 @@
-
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
-\ProvidesClass{LU-nosleguma} [2012/03/26 v1.0, Latvijas Universitāte]
-\LoadClass[a4paper,12pt]{article}
+\ProvidesClass{ludis}[2009/06/03 LU diplomdarbu stils]
 
-% fields that user can set (in addition to title, author, etc)
-\makeatletter
-	\newcommand{\studentid}[1]{\def \@studentid {#1}}
-	\newcommand{\supervisor}[1]{\def \@supervisor {#1}}
-	\newcommand{\thesistype}[1]{\def \@thesistype {#1}}
-	\newcommand{\subject}[1]{\def \@subject {#1}}
-	\newcommand{\wordcount}[1]{\def \@wordcount {#1}}
-	\newcommand{\email}[1]{\def \@email {#1}}
-	\newcommand{\university}[1]{\def \@university {#1}}
-	\newcommand{\faculty}[1]{\def \@faculty {#1}}
-	\newcommand{\location}[1]{\def \@location {#1}}
-	\supervisor{}
-	\studentid{}
-	\thesistype{}
-	\subject{}
-	\wordcount{}
-	\email{}
-	\university{}
-	\faculty{}
-	\location{}
-\makeatother
+\newcommand{\@spacingsize}{1.5}
+\DeclareOption{singlespacing}{\renewcommand{\@spacingsize}{1}}
+\newcommand{\@normmargins}{0}
+\DeclareOption{latexmargins}{\renewcommand{\@normmargins}{1}}
 
-% margins
-\usepackage[top=20mm,bottom=20mm,left=30mm,right=20mm]{geometry}
+\newcommand{\@fontsize}{2}
+\DeclareOption{12pt}{\renewcommand{\@fontsize}{2}}
+\DeclareOption{11pt}{\renewcommand{\@fontsize}{1}}
+\DeclareOption{10pt}{\renewcommand{\@fontsize}{0}}
 
-\linespread{1.5}
-% fonts
-
-% XeLaTeX atbalsts tiek pieslēgts ar šādām pakotnēm:
-\usepackage{fontspec}
-\usepackage{xunicode}
-\usepackage{xltxtra} %
-
-% Valodu atbalsts
-\usepackage{polyglossia}
-\setdefaultlanguage{latvian}
-\setotherlanguages{english,russian}
-
-%salabo latviešu valodu - nodaļu nosaukumi, attēlu paraksti u.c.
-\usepackage{fixlatvian}
-
-% Fonti -- var rakstīt sistēmas fontu nosaukumus
-\setmainfont[Mapping=tex-text]{Times New Roman}
-\setsansfont[Mapping=tex-text]{Arial}
-\newfontfamily\russianfont{Times New Roman}
-% alignment
-
-
-% indentation
-\usepackage{indentfirst}
-\setlength{\parindent}{1cm}
-\setlength{\parskip}{3pt}
-
-\usepackage{sectsty}
-
-\sectionfont{\Large\MakeUppercase}
-\subsectionfont{\large}
-
-% spacing
-\usepackage{setspace}
-
-%
-\usepackage{tocloft}
-
-
-% references
-%\usepackage{varioref}
-
-% attēli
-\usepackage{graphicx}
-
-%satura rādītājs
-\usepackage{tocloft}
-\renewcommand\cftsecfont{\normalfont}
-\renewcommand\cftsecpagefont{\normalfont}
-\renewcommand{\cftsecleader}{\cftdotfill{\cftsecdotsep}}
-\renewcommand\cftsecdotsep{\cftdot}
-\renewcommand\cftsubsecdotsep{\cftdot}
-
-%katrai nodaļai jābūt jaunā lapā.
-\let\stdsection\section
-\renewcommand\section{\newpage\stdsection}
-
-
-% bibliography
-%\usepackage{natbib}
-
-% page headings and numbering
-\makeatletter
-	\usepackage{fancyhdr}
-	\pagestyle{fancy}
-	\renewcommand{\footrulewidth}{\headrulewidth}
-	\fancyhf{}
-
-	\renewcommand{\headrulewidth}{0pt}
-	\renewcommand{\footrulewidth}{0pt}
-
-	\fancyfoot[C]{\thepage}
-\makeatother
-
-% title
-\makeatletter
-\def \maketitle {%
-	\begin{titlepage}
-		
-		\begin{center}
-			%lapas augšā atsauce uz universitāti
-			%@12pt Large ir ap 16punktiem
-			{\Large\MakeUppercase\@university}\\
-			{\Large\MakeUppercase \@faculty}
-		\end{center}
-		~\vfill
-		\begin{center}
-			%lielais dokumenta virsraksts
-			%LARGE jābūt ap 18 punktiem
-			\textbf{\LARGE\MakeUppercase \@title} \\
-			\ifx \@thesistype \@empty
-				\relax
-			\else
-				\vspace{0.5em}
-				{\large\MakeUppercase \@thesistype} \\
-			\fi
-		\end{center}
-		~\vfill
-
-		%~pa labi no centra
-		% ir kaste ar info par autoru un vadītāju
-		\hspace*{0.4\linewidth}
-		\begin{minipage}{0.6\linewidth}
-			\begin{flushleft}
-			\ifx @author \@empty
-				\relax
-			\else
-				Autors: \textbf{\@author}\\
-				\ifx \@studentid \@empty
-					\relax
-				\else
-					Stud. apl. \@studentid \\
-				\fi
-			\fi
-			\ifx \@supervisor \@empty
-				\relax
-			\else
-				Darba vadītājs: \@supervisor \\
-				\vspace{0.5in}
-			\fi
-			
-			\end{flushleft}
-			\end{minipage}
-
-			~\vfill	
-
-			\begin{center}
-			\ifx \@location \@empty
-				\relax
-			\else
-				{\Large\MakeUppercase \@location~\the\year}
-			\fi
-			
-			\end{center}
-
-
-	\end{titlepage}
+\DeclareOption*{%
+	\PassOptionsToClass{\CurrentOption}{report}
 }
-\makeatother
+
+\ProcessOptions\relax
+
+\if \@fontsize 1
+	\PassOptionsToClass{11pt}{report}
+\else
+	\if \@fontsize 0
+		\PassOptionsToClass{10pt}{report}
+	\else
+		\PassOptionsToClass{12pt}{report}
+	\fi
+\fi
+
+\LoadClass[a4paper]{report}
+
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{amsthm}
+\RequirePackage{amsfonts}
+
+% Theorems
+\numberwithin{equation}{section}
+\renewcommand{\theequation}{\thesection\arabic{equation}}
+\theoremstyle{definition}
+\newtheorem{definicija}{Definīcija}%
+\newtheorem{pienemums}{Pieņēmums}%
+\newtheorem{piemers}{Piemērs}%
+\theoremstyle{plain}
+\newtheorem{teorema}{Teorēma}%
+\newtheorem{apgalvojums}[teorema]{Apgalvojums}%
+\newtheorem{lemma}[teorema]{Lemma}%
+\newtheorem{sekas}[teorema]{Sekas}%
+\newtheorem{piezime}[teorema]{Piezīme}
+\renewcommand\proofname{Pierādījums}
+\newenvironment{pieradijums}{\begin{proof}}{\end{proof}}
+
+% Formating
+\renewcommand{\baselinestretch}{\@spacingsize}
+\renewcommand{\@makechapterhead}[1]{%
+  \vspace*{50 pt}%
+	      {\setlength{\parindent}{0pt} \raggedright \normalfont
+		    \bfseries\Huge
+		    \ifnum \value{secnumdepth} > 1
+%%    			\if@mainmatter % This is undefined in report
+                    \thechapter\ %
+%%                \fi
+		    \fi
+		    #1\par\nobreak\vspace{40 pt}
+          }
+}
+		
+\if \@normmargins 0		
+	\oddsidemargin 5mm
+	\evensidemargin 0mm
+	\topmargin -20mm
+	\textwidth 160mm
+	\textheight 248mm
+\fi
+
+
+
+% Toc
+\let\@origtoc\tableofcontents
+\renewcommand\tableofcontents{%
+	\renewcommand{\baselinestretch}{1}
+	\@origtoc
+    \renewcommand{\baselinestretch}{\@spacingsize}
+    }
+    
+% Bibliography
+\newcommand{\literatura}[1]{%
+	\newpage
+	\renewcommand{\baselinestretch}{1}
+	\bibliographystyle{ludis}
+	\renewcommand{\bibname}{Izmantotā literatūra un avoti}
+	\addcontentsline{toc}{chapter}{Izmantotā literatūra un avoti}\bibliography{#1}
+	\renewcommand{\baselinestretch}{\@spacingsize}
+}
+
+% New commands
+\newcommand{\@keywordname}{Keywords:}
+\newcommand{\keywords}[1]{\par\addvspace\baselineskip\noindent\@keywordname\enspace\ignorespaces#1}
+\newenvironment{abstract-en}{%
+	\renewcommand{\@keywordname}{Keywords:}
+	\renewcommand{\abstractname}{Abstract}
+	\begin{abstract}}{\end{abstract}}
+\newenvironment{abstract-lv}{%
+	\renewcommand{\@keywordname}{Atslēgas vārdi:}
+	\renewcommand{\abstractname}{Anotācija}
+	\begin{abstract}}{\end{abstract}}
+
+% Special sections
+\newcommand{\specnodala}[1]{\newpage\addcontentsline{toc}{chapter}{#1}\section*{#1}}
+
+% Titlepage and dokumentara lapa
+\newcommand{\autors}[1]{\author{#1}}
+\newcommand{\@nosaukumsLB}{0}
+\newcommand{\nosaukums}[1]{%
+	\title{#1}
+	\if \@nosaukumsLB 0
+		\renewcommand{\@nosaukumsLB}{\MakeUppercase{\@title}}
+	\fi	
+}
+\newcommand{\NOSAUKUMS}[1]{\renewcommand{\@nosaukumsLB}{#1}}
+\newcommand{\gads}[1]{\date{#1}}
+\newcommand{\universityname}{Latvijas Universitāte}
+\newcommand{\universityshort}{LU}
+\newcommand{\@fakultate}{}
+\newcommand{\@fakultateD}{}
+\newcommand{\fakultate}[1]{%
+	\renewcommand{\@fakultate}{#1 fakultāte}
+	\renewcommand{\@fakultateD}{#1 fakultātē}}
+\newcommand{\@nodala}{}
+\newcommand{\@nodalaD}{}
+\newcommand{\nodala}[1]{%
+	\renewcommand{\@nodala}{#1 nodaļa}
+	\renewcommand{\@nodalaD}{#1 nodaļā}}
+\newcommand{\@vieta}{}
+\newcommand{\vieta}[1]{\renewcommand{\@vieta}{#1}}
+\newcommand{\@darbaveids}{}
+\newcommand{\@darbaveidsLB}{0}
+\newcommand{\darbaveids}[1]{%
+	\renewcommand{\@darbaveids}{#1}
+	\if \@darbaveidsLB 0
+		\renewcommand{\@darbaveidsLB}{\MakeUppercase{\@darbaveids}}
+	\fi
+}
+\newcommand{\DARBAVEIDS}[1]{\renewcommand{\@darbaveidsLB}{#1}}
+\newcommand{\@studapl}{}
+\newcommand{\studapl}[1]{\renewcommand{\@studapl}{#1}}
+\newcommand{\@vaditajs}{}
+\newcommand{\vaditajs}[1]{\renewcommand{\@vaditajs}{#1}}
+\newcommand{\@recenzents}{}
+\newcommand{\recenzents}[1]{\renewcommand{\@recenzents}{#1}}
+\renewcommand{\maketitle}{%
+  \renewcommand{\baselinestretch}{1}
+  \begin{titlepage}%
+  \null\vfil
+  \begin{center}%
+  	{\large \MakeUppercase{\universityname} \par}%
+  	{\large \MakeUppercase{\@fakultate}\par}%
+ 	{\large \MakeUppercase{\@nodala} \par}%
+ 	\vskip 5em
+    {\large \textbf{\@nosaukumsLB} \par}%
+    \vskip 2em
+    {\large \@darbaveidsLB\ DARBS\par}% 
+   \end{center}\par
+   \begin{flushright}
+    \vskip 7em%
+    {%
+      \begin{tabular}[t]{l}%
+       Autors: \textbf{\@author} \\
+       Stud. apl. \@studapl \\
+       Darba vadītājs: \@vaditajs
+      \end{tabular}\par}%
+      \vskip 1.5em%
+    \end{flushright}
+    \vskip 7em%
+    {\centering\large \MakeUppercase{\@vieta} \@date\par}
+  \vfil\null
+  \end{titlepage}%
+  \global\let\and\relax
+   \renewcommand{\baselinestretch}{\@spacingsize}
+}
+   
+\newcommand{\@doklapa}{%
+	\newpage\thispagestyle{empty}
+  	\renewcommand{\baselinestretch}{1} 
+  
+	\@darbaveids\ darbs ``\@title'' izstrādāts	\universityshort\ \@fakultateD.\par
+	\vskip 1em%
+	Ar savu parakstu apliecinu, ka pētījums veikts patstāvīgi, izmantoti tikai tajā norādītie informācijas avoti un iesniegtā darba elektroniskā kopija atbilst izdrukai.\par
+	\vskip 1em
+	Autors: \@author, st. apl. \@studapl\par
+	\vskip 2em
+	\hspace{4em}\begin{tabular}{cc}%
+		\underline{\hspace{10em}}\vspace{-2mm} &
+		\underline{\hspace{8em}} \\
+		 \tiny{(paraksts)} &
+		 \tiny{(datums)}
+	\end{tabular}
+	\vskip 3em%
+	Rekomendēju/nerekomentēju darbu aizstāvēšanai.\par
+	Vadītājs: \@vaditajs\par
+	\vskip 2em
+	\hspace{4em}\begin{tabular}{cc}%
+		\underline{\hspace{10em}}\vspace{-2mm} &
+		\underline{\hspace{8em}} \\
+		 \tiny{(paraksts)} &
+		 \tiny{(datums)}
+	\end{tabular}
+	\vskip 1em%
+	\begin{tabular}{lc}
+	Darbs iesniegts \@fakultateD & \underline{\hspace{8em}} \\
+	& \tiny{(datums)}
+	\end{tabular}\par
+	\vskip 1em
+	\begin{tabular}{lc}%
+      Pieņēma  & \underline{\hspace{20em}}\\
+		& \tiny{(darbu pieņēma)}
+	\end{tabular}
+	\vskip 5em%
+	Darbs aizstāvēts \MakeLowercase{\@darbaveids} gala pārbaudījuma komisijas sēdē\par
+	\vskip 1em%
+	\begin{tabular}{cl}\underline{\hspace{8em}}\vspace{-2mm} & 	 prot.\ Nr. \underline{\hspace{4em}}, vērtējums\underline{\hspace{4em}} \\
+	 \tiny{(datums)} & \end{tabular}\par
+	\vskip 1em%
+	\begin{tabular}{lcc}
+	Komisijas sekret\={a}rs/-e: & 
+	\underline{\hspace{8em}}\vspace{-2mm} &
+	\underline{\hspace{8em}} \\
+	& \tiny{(Vārds, Uzvārds)} & \tiny{(paraksts)} 
+	\end{tabular}
+}   
+
+\AtEndDocument{\@doklapa}
