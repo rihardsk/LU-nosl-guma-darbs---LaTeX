@@ -224,7 +224,7 @@
 	\vskip 5em%
 	Darbs aizst\={a}v\={e}ts \MakeLowercase{\@darbaveids} gala p\={a}rbaud\={\i}juma komisijas s\={e}d\={e}\par
 	\vskip 1em%
-	\begin{tabular}{cl}\underline{\hspace{8em}}\vspace{-2mm} & 	 prot.\ Nr. \underline{\hspace{4em}}, v\={e}rt\={e}jums\underline{\hspace{4em}} \\
+	\begin{tabular}{cl}\underline{\hspace{8em}}\vspace{-2mm} & 	 prot.\ Nr. \underline{\hspace{8em}}.\\
 	 \tiny{(datums)} & \end{tabular}\par
 	\vskip 1em%
 	\begin{tabular}{lcc}
