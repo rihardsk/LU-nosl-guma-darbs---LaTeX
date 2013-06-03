@@ -59,11 +59,11 @@
 \renewcommand{\@makechapterhead}[1]{%
 	\vspace*{0 pt}%
 	{\setlength{\parindent}{1cm} \raggedright \normalfont
-        \bfseries\scshape\fontsize{14}{0}\selectfont
+        \fontsize{14}{0}\selectfont
 		\ifnum \value{secnumdepth}>1
    			\thechapter\ %
 		\fi
-		#1\par\nobreak\vspace{14 pt}}}
+		\uppercase\expandafter{#1}\par\nobreak\vspace{14 pt}}}
 
 \titleformat{\section}{\bfseries\fontsize{14}{7}\selectfont}{\thesection}{1em}{}
 \titleformat{\subsection}{\bfseries\fontsize{14}{7}\selectfont}{\thesubsection}{1em}{}
